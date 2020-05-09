@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "calc.substract";
+
+package substract;
+
+// The greeting service definition.
+service Substraction {
+  // Sends a greeting
+  rpc Substract (SubstractionRequest) returns (SubstractionResponse);
+}
+
+// The request message containing the user's name.
+message SubstractionRequest {
+  int32 op1 = 1;
+  int32 op2 = 2;
+}
+
+// The response message containing the greetings.
+message SubstractionResponse {
+  int32 result = 1;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "calc.add";
+
+package calculator;
+
+
+service Addition {
+  
+  rpc Add (AdditionRequest) returns (AdditionResponse);
+}
+
+message AdditionRequest {
+  int32 op1 = 1;
+  int32 op2 = 2;
+}
+
+
+message AdditionResponse {
+  int32 result = 1;
+}

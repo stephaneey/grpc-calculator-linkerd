@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "calc.divide";
+
+package divide;
+
+
+service Division {
+  
+  rpc Divide (DivisionRequest) returns (DivisionResponse);
+}
+
+
+message DivisionRequest {
+  int32 op1 = 1;
+  int32 op2 = 2;
+}
+
+
+message DivisionResponse {
+  int32 result = 1;
+}
