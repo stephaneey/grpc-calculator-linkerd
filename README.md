@@ -17,4 +17,4 @@ docker build . -t calcsubstract:dev
 docker run -p 5004:80 -t calcsubstract:dev
 
 ```
-* Start the MathFanboy, as a Docker container or plain .Net Core console
+* Start the MathFanboy, as a plain .Net Core console. No Docker in order to avoid having to build a local Docker network.
