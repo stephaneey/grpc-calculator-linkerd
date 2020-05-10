@@ -8,6 +8,9 @@
  
 The MathFanBoy console generates traffic so as to randomly call one of these mathematical operations. The purpose is to watch how the Service Mesh (LinkerD) helps identifying the flows (observability), monitoring the errors, etc. Feel freel to visit the LinkerD web site or [my blog post](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/meshing-with-linkerd2-using-grpc-enabled-net-core-services/ba-p/1377867) that explains the rationale behind using gRPC & LinkerD. 
 
+After having installed the solution + LinkerD, you should be able to visualize how services do call each other, as shown below:
+
+![Call tree](images/call tree.png "Call tree")
 
 
 # Testing with plain docker
