@@ -138,7 +138,7 @@ spec:
           name: grpc        
         resources:
           requests:
-            cpu: 100m
+            cpu: 10m
       serviceAccountName: addition
 ---
 apiVersion: apps/v1
@@ -170,7 +170,7 @@ spec:
           name: grpc        
         resources:
           requests:
-            cpu: 100m
+            cpu: 10m
       serviceAccountName: division
 ---
 apiVersion: apps/v1
@@ -233,7 +233,7 @@ spec:
           name: grpc        
         resources:
           requests:
-            cpu: 100m
+            cpu: 10m
       serviceAccountName: multiplication
 ---
 apiVersion: apps/v1
@@ -271,7 +271,7 @@ spec:
           name: grpc        
         resources:
           requests:
-            cpu: 100m
+            cpu: 10m
       serviceAccountName: percentage
 ---
 apiVersion: apps/v1
