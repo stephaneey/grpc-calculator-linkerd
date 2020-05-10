@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,9 @@
     </Protobuf>
     <Protobuf Include="..\calc.multiply\Protos\multiply.proto" GrpcServices="Client">
       <Link>Protos\multiply.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\calc.percentage\Protos\percentage.proto" GrpcServices="Client">
+      <Link>Protos\percentage.proto</Link>
     </Protobuf>
     <Protobuf Include="..\calc.substract\Protos\substract.proto" GrpcServices="Client">
       <Link>Protos\substract.proto</Link>

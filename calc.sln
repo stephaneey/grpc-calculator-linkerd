@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathFanboy", "MathFanboy\Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "calc.substract", "calc.substract\calc.substract.csproj", "{D022B1F5-85B0-41B4-A140-36BC7E02D865}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "calc.multiply", "calc.multiply\calc.multiply.csproj", "{20911494-44B3-4AB3-8755-AE11163E9305}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "calc.multiply", "calc.multiply\calc.multiply.csproj", "{20911494-44B3-4AB3-8755-AE11163E9305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "calc.divide", "calc.divide\calc.divide.csproj", "{1F76B235-CE89-4E94-8E36-83BD6535A02A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "calc.divide", "calc.divide\calc.divide.csproj", "{1F76B235-CE89-4E94-8E36-83BD6535A02A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "calc.percentage", "calc.percentage\calc.percentage.csproj", "{0CF0723D-0260-448B-AE42-17B63692F6AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{1F76B235-CE89-4E94-8E36-83BD6535A02A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F76B235-CE89-4E94-8E36-83BD6535A02A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F76B235-CE89-4E94-8E36-83BD6535A02A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CF0723D-0260-448B-AE42-17B63692F6AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CF0723D-0260-448B-AE42-17B63692F6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CF0723D-0260-448B-AE42-17B63692F6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CF0723D-0260-448B-AE42-17B63692F6AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

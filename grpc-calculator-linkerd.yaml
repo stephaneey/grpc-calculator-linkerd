@@ -1,0 +1,312 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: addition
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: substraction
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: division
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: multiplication
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: percentage
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mathfanboy
+  namespace: grpc-calculator
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: addition
+  namespace: grpc-calculator
+spec:
+  ports:
+  - name: grpc
+    port: 5001
+    targetPort: 80  
+  selector:
+    app: addition
+  type: ClusterIP        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: substraction
+  namespace: grpc-calculator
+spec:
+  ports:
+  - name: grpc
+    port: 5004
+    targetPort: 80  
+  selector:
+    app: substraction
+  type: ClusterIP    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: division
+  namespace: grpc-calculator
+spec:
+  ports:
+  - name: grpc
+    port: 5002
+    targetPort: 80
+  selector:
+    app: division
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: percentage
+  namespace: grpc-calculator
+spec:
+  ports:
+  - name: grpc
+    port: 5005
+    targetPort: 80
+  selector:
+    app: percentage
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multiplication
+  namespace: grpc-calculator
+spec:
+  ports:
+  - name: grpc
+    port: 5003
+    targetPort: 80
+  selector:
+    app: multiplication
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: addition
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9  
+  name: addition
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: addition
+  template:
+    metadata:
+      labels:
+        app: addition
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:      
+      - name: addition
+        image: aksregistrysey.azurecr.io/calcadd:dev        
+        ports:
+        - containerPort: 5001
+          name: grpc        
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: addition
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: division
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9
+  name: division
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: division
+  template:
+    metadata:
+      labels:
+        app: division
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:      
+      - name: division
+        image: aksregistrysey.azurecr.io/calcdivide:dev        
+        ports:
+        - containerPort: 5002
+          name: grpc        
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: division
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: substraction
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9
+  name: substraction
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: substraction
+  template:
+    metadata:
+      labels:
+        app: substraction
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:      
+      - name: substraction
+        image: aksregistrysey.azurecr.io/calcsubstract:dev        
+        ports:
+        - containerPort: 5004
+          name: grpc   
+        resources:
+          requests:
+            cpu: 10m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: multiplication
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9
+  name: multiplication
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multiplication
+  template:
+    metadata:
+      labels:
+        app: multiplication
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:      
+      - name: multiplication
+        image: aksregistrysey.azurecr.io/calcmultiply:dev        
+        ports:
+        - containerPort: 5003
+          name: grpc        
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: multiplication
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: percentage
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9
+  name: percentage
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: percentage
+  template:
+    metadata:
+      labels:
+        app: percentage
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:      
+      - name: percentage
+        image: aksregistrysey.azurecr.io/calcpercentage:dev
+        env:                
+        - name: DivisionEndpoint
+          value: http://division.grpc-calculator:5002
+        - name: MultiplicationEndpoint
+          value: http://multiplication.grpc-calculator:5003               
+        ports:
+        - containerPort: 5005
+          name: grpc        
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: percentage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: mathfanboy
+    app.kubernetes.io/part-of: calculator
+    app.kubernetes.io/version: v9
+  name: mathfanboy
+  namespace: grpc-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mathfanboy
+  template:
+    metadata:
+      labels:
+        app: mathfanboy
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - name: mathfanboy       
+        image: aksregistrysey.azurecr.io/mathfanboy:dev
+        imagePullPolicy: Always
+        env:        
+        - name: AdditionEndpoint
+          value: http://addition.grpc-calculator:5001
+        - name: DivisionEndpoint
+          value: http://division.grpc-calculator:5002
+        - name: MultiplicationEndpoint
+          value: http://multiplication.grpc-calculator:5003
+        - name: SubstractionEndpoint
+          value: http://substraction.grpc-calculator:5004    
+        - name: PercentageEndpoint
+          value: http://percentage.grpc-calculator:5005          
+      serviceAccountName: mathfanboy

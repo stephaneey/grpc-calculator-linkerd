@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "calc.percentage";
+
+package percentage;
+
+
+service Percentage {
+
+  rpc GetPercentage (PercentageRequest) returns (PercentageResponse);
+}
+
+
+message PercentageRequest {
+  int32 op1 = 1;
+  int32 op2 = 2;
+}
+
+
+message PercentageResponse {
+  int32 result = 1;
+}

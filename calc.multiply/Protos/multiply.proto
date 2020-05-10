@@ -4,19 +4,19 @@ option csharp_namespace = "calc.multiply";
 
 package multiply;
 
-// The greeting service definition.
+
 service Multiplication {
-  // Sends a greeting
+  
   rpc Multiply (MultiplicationRequest) returns (MultiplicationResponse);
 }
 
-// The request message containing the user's name.
+
 message MultiplicationRequest {
   int32 op1 = 1;
   int32 op2 = 2;
 }
 
-// The response message containing the greetings.
+
 message MultiplicationResponse {
   int32 result = 1;
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static calc.add.Addition;
 using static calc.divide.Division;
 using static calc.multiply.Multiplication;
+using static calc.percentage.Percentage;
 using static calc.substract.Substraction;
 
 namespace MathFanboy
@@ -15,30 +16,43 @@ namespace MathFanboy
         static string[] endpoints = null;
         
         static async Task Main(string[] args)
-        {            
+        {
 
-#if DEBUG           
-            endpoints = new string[4] {
+#if DEBUG
+            endpoints = new string[5] {
                 "http://localhost:5001", 
                 "http://localhost:5002", 
                 "http://localhost:5003", 
-                "http://localhost:5004"};
+                "http://localhost:5004",
+                "http://localhost:5005"};
+#else
+            endpoints = new string[5] {
+                Environment.GetEnvironmentVariable("AdditionEndpoint"),
+                Environment.GetEnvironmentVariable("DivisionEndpoint"),
+                Environment.GetEnvironmentVariable("MultiplicationEndpoint"),
+                Environment.GetEnvironmentVariable("SubstractionEndpoint"),
+                Environment.GetEnvironmentVariable("PercentageEndpoint")};
 #endif
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
-
+            Console.WriteLine("available endpoints");
+            foreach(string endpoint in endpoints)
+            {
+                Console.WriteLine(endpoint);
+            }
+            
             while (true)
             {
                 try
                 {
                     Thread.Sleep(200);
-                    var position = new Random().Next(0, 3);
-                   
-                    switch(position)
+                    var position = new Random().Next(0, 5);
+                    
+                    switch (position)
                     {
                         case 0:
-                            Console.WriteLine("Attempting an addition");
-                            Console.WriteLine(await Add(5, 3, endpoints[position]));
+                           Console.WriteLine("Attempting an addition");
+                           Console.WriteLine(await Add(5, 3, endpoints[position]));
                             break;
                         case 1:
                             //purposely causing division by 0 from time to time
@@ -53,16 +67,20 @@ namespace MathFanboy
                             Console.WriteLine("Attempting a substraction");
                             Console.WriteLine(await Substract(5, 3, endpoints[position]));
                             break;
+                        case 4:
+                            Console.WriteLine("Attempting a percentage");
+                            Console.WriteLine(await Percentage(110, 20, endpoints[position]));
+                            break;
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                }                
+                }
             }
             
-          
+
         }
         static async Task<int> Add(int op1,int op2,string endpoint)
         {
@@ -111,6 +129,19 @@ namespace MathFanboy
                 {
                     Op1 = op1,
                     Op2 = op2
+                })).Result;
+            }
+        }
+
+        static async Task<int> Percentage(int op1, int op2, string endpoint)
+        {
+            using (var channel = GrpcChannel.ForAddress(endpoint))
+            {
+                var client = new PercentageClient(channel);
+                return (await client.GetPercentageAsync(new calc.percentage.PercentageRequest
+                {
+                     Op1=op1,
+                     Op2=op2
                 })).Result;
             }
         }
