@@ -10,12 +10,20 @@ The MathFanBoy console generates traffic so as to randomly call one of these mat
 
 After having installed the solution + LinkerD, you should be able to visualize how services do call each other, as shown below:
 
-![Call tree](images/call tree.png "Call tree")
+![Call tree](Images/calltree.png "Call tree")
 
+where one can indeed see Mathfanboy calling every operation as well as Percentage calling multiplication & division. 
 
-# Testing with plain docker
-* Build the docker files that are in the root folder. Rename them one by one to DockerFile. To build them, run: docker build . -t calcadd:dev or whatever tag you want to use. Repeat this operation for all four operators
-* Run local docker containers the following way: docker run -p 5001:80 -t calcadd:dev. Make sure to specify the correct corresponding port (5001 for addition, 5002 for division, etc.). 
+# Prerequisites
+To get this demo app up & running, you need the following:
+* A K8s cluster. 
+* Install LinkerD2: read their [getting started walkthough](https://linkerd.io/2/getting-started/). You can stop at step 4. 
+
+# Testing the app locally with plain docker
+If you're only interested in viewing gRPC in action, you can test this locally.
+
+* Build the docker files that are in the root folder. Rename them one by one to DockerFile. 
+
 ```
 docker build . -t calcadd:dev
 docker run -p 5001:80 -t calcadd:dev
@@ -29,7 +37,17 @@ docker build . -t calcpercentage:dev
 docker run -p 5005:80 -t calcpercentage:dev
 
 ```
-* Start the MathFanboy.exe, as a plain .Net Core console. No Docker in order to avoid having to build a local Docker network.
+* Build MathFanboy in Debug mode, as a plain .Net Core console. No Docker in order to avoid having to build a local Docker network. The code contains a ifdebug preprocessing directive that targets the endpoints using the above ports.
 
 # Deploy to AKS (or any other K8s cluster)
+All the container images are hosted on my personal Docker Hub repos, so you don't need to build anything yourself if you just one to see this in action. Just make sure to comply with the prerequisites.
 
+```
+curl -sL https://github.com/stephaneey/grpc-calculator-linkerd/blob/master/grpc-calculator-linkerd.yaml \
+  | kubectl apply -f -  
+```
+Alternatively, you can download https://github.com/stephaneey/grpc-calculator-linkerd/blob/master/grpc-calculator-linkerd.yaml, followed by:
+
+```
+kubectl apply -f ./grpc-calculator-linkerd.yaml
+```
