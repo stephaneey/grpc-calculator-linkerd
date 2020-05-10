@@ -132,7 +132,7 @@ spec:
     spec:
       containers:      
       - name: addition
-        image: aksregistrysey.azurecr.io/calcadd:dev        
+        image: stephaneey/calcadd:dev        
         ports:
         - containerPort: 5001
           name: grpc        
@@ -164,7 +164,7 @@ spec:
     spec:
       containers:      
       - name: division
-        image: aksregistrysey.azurecr.io/calcdivide:dev        
+        image: stephaneey/calcdivide:dev        
         ports:
         - containerPort: 5002
           name: grpc        
@@ -196,7 +196,7 @@ spec:
     spec:
       containers:      
       - name: substraction
-        image: aksregistrysey.azurecr.io/calcsubstract:dev        
+        image: stephaneey/calcsubstract:dev        
         ports:
         - containerPort: 5004
           name: grpc   
@@ -227,7 +227,7 @@ spec:
     spec:
       containers:      
       - name: multiplication
-        image: aksregistrysey.azurecr.io/calcmultiply:dev        
+        image: stephaneey/calcmultiply:dev        
         ports:
         - containerPort: 5003
           name: grpc        
@@ -259,7 +259,7 @@ spec:
     spec:
       containers:      
       - name: percentage
-        image: aksregistrysey.azurecr.io/calcpercentage:dev
+        image: stephaneey/calcpercentage:dev
         imagePullPolicy: Always
         env:                
         - name: DivisionEndpoint
@@ -297,7 +297,7 @@ spec:
     spec:
       containers:
       - name: mathfanboy       
-        image: aksregistrysey.azurecr.io/mathfanboy:dev
+        image: stephaneey/mathfanboy:dev
         imagePullPolicy: Always
         env:        
         - name: AdditionEndpoint
