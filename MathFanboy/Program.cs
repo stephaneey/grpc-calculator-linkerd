@@ -51,8 +51,8 @@ namespace MathFanboy
                     switch (position)
                     {
                         case 0:
-                           Console.WriteLine("Attempting an addition");
-                           Console.WriteLine(await Add(5, 3, endpoints[position]));
+                            Console.WriteLine("Attempting an addition");
+                            Console.WriteLine(await Add(5, 3, endpoints[position]));
                             break;
                         case 1:
                             //purposely causing division by 0 from time to time

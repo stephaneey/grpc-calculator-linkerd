@@ -260,6 +260,7 @@ spec:
       containers:      
       - name: percentage
         image: aksregistrysey.azurecr.io/calcpercentage:dev
+        imagePullPolicy: Always
         env:                
         - name: DivisionEndpoint
           value: http://division.grpc-calculator:5002

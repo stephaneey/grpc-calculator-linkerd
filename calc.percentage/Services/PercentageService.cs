@@ -31,7 +31,9 @@ namespace calc.percentage
         }
 
         public override async Task<PercentageResponse> GetPercentage(PercentageRequest request, ServerCallContext context)
-        {            
+        {
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
             return new PercentageResponse
             {
                 Result = await Divide(await Multiply(request.Op1, request.Op2), 100)
