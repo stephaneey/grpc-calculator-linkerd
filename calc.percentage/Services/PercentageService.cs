@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using calc.divide;
+using calc.multiply;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
@@ -11,58 +13,43 @@ using static calc.multiply.Multiplication;
 namespace calc.percentage
 {
     public class PercentageService : Percentage.PercentageBase
-    {
-        string MultiplicationEndpoint = null;
-        string DivisionEndpoint = null;
-
-    private readonly ILogger<PercentageService> _logger;
-        public PercentageService(ILogger<PercentageService> logger)
+    {       
+        
+        DivisionClient _DivisionClient;
+        MultiplicationClient _MultiplicationClient;
+        
+        private readonly ILogger<PercentageService> _logger;
+        public PercentageService(ILogger<PercentageService> logger, grpcClientConfig config)
         {
             _logger = logger;
-#if DEBUG
-            MultiplicationEndpoint = "http://localhost:5003";
-            DivisionEndpoint = "http://localhost:5002";
-
-#else
-       MultiplicationEndpoint=Environment.GetEnvironmentVariable("MultiplicationEndpoint");
-       DivisionEndpoint=Environment.GetEnvironmentVariable("DivisionEndpoint");                
-                
-#endif
+            _MultiplicationClient = config.mcli;
+            _DivisionClient = config.dcli;
         }
 
         public override async Task<PercentageResponse> GetPercentage(PercentageRequest request, ServerCallContext context)
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
+            
+            var m =(await _MultiplicationClient.MultiplyAsync(
+                        new MultiplicationRequest
+                        {
+                            Op1 = request.Op1,
+                            Op2 = request.Op2
+                        })).Result;
+
             return new PercentageResponse
             {
-                Result = await Divide(await Multiply(request.Op1, request.Op2), 100)
+                Result = (await _DivisionClient.DivideAsync(new DivisionRequest
+                {
+                    Op1 = (await _MultiplicationClient.MultiplyAsync(
+                        new MultiplicationRequest
+                        {
+                            Op1 = request.Op1,
+                            Op2 = request.Op2
+                        })).Result,
+                    Op2 = 100
+                })).Result
             };
         }
-        async Task<int> Divide(int op1, int op2)
-        {
-            using (var channel = GrpcChannel.ForAddress(DivisionEndpoint))
-            {
-                var client = new DivisionClient(channel);
-                return (await client.DivideAsync(new calc.divide.DivisionRequest
-                {
-                    Op1 = op1,
-                    Op2 = op2
-                })).Result;
-            }
-        }
-
-        async Task<int> Multiply(int op1, int op2)
-        {
-            using (var channel = GrpcChannel.ForAddress(MultiplicationEndpoint))
-            {
-                var client = new MultiplicationClient(channel);
-                return (await client.MultiplyAsync(new calc.multiply.MultiplicationRequest
-                {
-                    Op1 = op1,
-                    Op2 = op2
-                })).Result;
-            }
-        }
+       
     }
 }

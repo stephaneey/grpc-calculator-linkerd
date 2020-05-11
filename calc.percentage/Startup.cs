@@ -2,14 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using calc.multiply;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static calc.divide.Division;
+using static calc.multiply.Multiplication;
 
 namespace calc.percentage
 {
+    public class grpcClientConfig
+    {
+        string MultiplicationEndpoint = null;
+        string DivisionEndpoint = null;
+        GrpcChannel DivisionChannel = null;
+        GrpcChannel MultiplicationChannel = null;
+        public DivisionClient dcli { get; }
+        public MultiplicationClient mcli { get; }
+        public grpcClientConfig()
+        {
+#if DEBUG
+            MultiplicationEndpoint = "http://localhost:5003";
+            DivisionEndpoint = "http://localhost:5002";
+
+#else
+       MultiplicationEndpoint=Environment.GetEnvironmentVariable("MultiplicationEndpoint");
+       DivisionEndpoint=Environment.GetEnvironmentVariable("DivisionEndpoint");                
+                
+#endif
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
+            DivisionChannel = GrpcChannel.ForAddress(DivisionEndpoint);
+            MultiplicationChannel = GrpcChannel.ForAddress(MultiplicationEndpoint);
+            dcli = new DivisionClient(DivisionChannel);
+            mcli = new MultiplicationClient(MultiplicationChannel);
+            
+        }
+    }
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -17,11 +49,14 @@ namespace calc.percentage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddSingleton<grpcClientConfig>(new grpcClientConfig());
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
