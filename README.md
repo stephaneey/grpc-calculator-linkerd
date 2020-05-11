@@ -40,7 +40,7 @@ docker run -p 5005:80 -t calcpercentage:dev
 * Build MathFanboy in Debug mode, as a plain .Net Core console. No Docker in order to avoid having to build a local Docker network. The code contains a ifdebug preprocessing directive that targets the endpoints using the above ports.
 
 # Deploy to AKS (or any other K8s cluster)
-All the container images are hosted on my personal Docker Hub repos, so you don't need to build anything yourself if you just one to see this in action. Just make sure to comply with the prerequisites.
+All the container images are hosted on my personal Docker Hub repos, so you don't need to build anything yourself if you just want to see this in action. Just make sure to comply with the prerequisites.
 
 ```
 curl -sL https://github.com/stephaneey/grpc-calculator-linkerd/blob/master/grpc-calculator-linkerd.yaml \
