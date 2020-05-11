@@ -45,9 +45,9 @@ namespace MathFanboy
             {
                 try
                 {
-                    Thread.Sleep(200);
+                    Thread.Sleep(20);
                     var position = new Random().Next(0, 5);
-                    
+
                     switch (position)
                     {
                         case 0:
