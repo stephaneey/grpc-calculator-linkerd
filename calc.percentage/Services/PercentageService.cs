@@ -27,14 +27,7 @@ namespace calc.percentage
         }
 
         public override async Task<PercentageResponse> GetPercentage(PercentageRequest request, ServerCallContext context)
-        {
-            
-            var m =(await _MultiplicationClient.MultiplyAsync(
-                        new MultiplicationRequest
-                        {
-                            Op1 = request.Op1,
-                            Op2 = request.Op2
-                        })).Result;
+        {  
 
             return new PercentageResponse
             {
