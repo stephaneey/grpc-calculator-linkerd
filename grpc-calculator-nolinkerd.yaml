@@ -1,49 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: addition
-  namespace: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: substraction
-  namespace: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: division
-  namespace: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: multiplication
-  namespace: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: percentage
-  namespace: grpc-calculator
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: mathfanboy
-  namespace: grpc-calculator
+  name: grpc-calculator-nold
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: addition
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   ports:
   - name: grpc
@@ -57,7 +21,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: substraction
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   ports:
   - name: grpc
@@ -71,7 +35,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: division
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   ports:
   - name: grpc
@@ -85,7 +49,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: percentage
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   ports:
   - name: grpc
@@ -99,7 +63,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: multiplication
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   ports:
   - name: grpc
@@ -117,18 +81,18 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9  
   name: addition
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: addition
   template:
     metadata:
-      labels:
-        app: addition
       annotations:
         linkerd.io/inject: enabled
+      labels:
+        app: addition      
     spec:
       containers:      
       - name: addition
@@ -139,7 +103,7 @@ spec:
         resources:
           requests:
             cpu: 10m
-      serviceAccountName: addition
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -149,18 +113,18 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9
   name: division
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: division
   template:
     metadata:
-      labels:
-        app: division
       annotations:
         linkerd.io/inject: enabled
+      labels:
+        app: division      
     spec:
       containers:      
       - name: division
@@ -171,7 +135,7 @@ spec:
         resources:
           requests:
             cpu: 10m
-      serviceAccountName: division
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -181,18 +145,18 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9
   name: substraction
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: substraction
   template:
     metadata:
-      labels:
-        app: substraction
       annotations:
         linkerd.io/inject: enabled
+      labels:
+        app: substraction      
     spec:
       containers:      
       - name: substraction
@@ -213,18 +177,18 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9
   name: multiplication
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: multiplication
   template:
     metadata:
-      labels:
-        app: multiplication
       annotations:
         linkerd.io/inject: enabled
+      labels:
+        app: multiplication      
     spec:
       containers:      
       - name: multiplication
@@ -235,7 +199,7 @@ spec:
         resources:
           requests:
             cpu: 10m
-      serviceAccountName: multiplication
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -245,18 +209,18 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9
   name: percentage
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: percentage
   template:
     metadata:
-      labels:
-        app: percentage
       annotations:
         linkerd.io/inject: enabled
+      labels:
+        app: percentage      
     spec:
       containers:      
       - name: percentage
@@ -273,7 +237,7 @@ spec:
         resources:
           requests:
             cpu: 10m
-      serviceAccountName: percentage
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -283,7 +247,7 @@ metadata:
     app.kubernetes.io/part-of: calculator
     app.kubernetes.io/version: v9
   name: mathfanboy
-  namespace: grpc-calculator
+  namespace: grpc-calculator-nold
 spec:
   replicas: 1
   selector:
@@ -292,9 +256,7 @@ spec:
   template:
     metadata:
       labels:
-        app: mathfanboy
-      annotations:
-        linkerd.io/inject: enabled
+        app: mathfanboy      
     spec:
       containers:
       - name: mathfanboy       
@@ -302,13 +264,13 @@ spec:
         imagePullPolicy: Always
         env:        
         - name: AdditionEndpoint
-          value: http://addition.grpc-calculator:5001
+          value: http://addition.grpc-calculator-nold:5001
         - name: DivisionEndpoint
-          value: http://division.grpc-calculator:5002
+          value: http://division.grpc-calculator-nold:5002
         - name: MultiplicationEndpoint
-          value: http://multiplication.grpc-calculator:5003
+          value: http://multiplication.grpc-calculator-nold:5003
         - name: SubstractionEndpoint
-          value: http://substraction.grpc-calculator:5004    
+          value: http://substraction.grpc-calculator-nold:5004    
         - name: PercentageEndpoint
-          value: http://percentage.grpc-calculator:5005          
-      serviceAccountName: mathfanboy
+          value: http://percentage.grpc-calculator-nold:5005          
+      

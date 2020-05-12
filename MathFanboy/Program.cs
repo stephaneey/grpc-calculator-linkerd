@@ -40,7 +40,7 @@ namespace MathFanboy
             {
                 Console.WriteLine(endpoint);
             }
-            
+            Console.WriteLine("Starting gRPC chatting");
             
             using var AdditionChannel = GrpcChannel.ForAddress(endpoints[0]);
             using var DivisionChannel = GrpcChannel.ForAddress(endpoints[1]);
@@ -78,7 +78,7 @@ namespace MathFanboy
                             {
                                 Op1 = 10,
                                 Op2 = new Random().Next(0, 4)
-                            })).Result);                            
+                            })).Result);
                             break;
                         case 2:
                             Console.WriteLine((await MultiplicationClient.MultiplyAsync(new calc.multiply.MultiplicationRequest
