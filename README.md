@@ -6,13 +6,13 @@
  * Substraction
  * Percentage: this one calls Multiplication followed by Division
  
-The MathFanBoy console generates traffic so as to randomly call one of these mathematical operations. The purpose is to watch how the Service Mesh (LinkerD) helps identifying the flows (observability), monitoring the errors, etc. Feel freel to visit the LinkerD web site or [my blog post](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/meshing-with-linkerd2-using-grpc-enabled-net-core-services/ba-p/1377867) that explains the rationale behind using gRPC & LinkerD. 
+The MathFanBoy console generates traffic so as to randomly call one of these mathematical operations. The purpose is to watch how the Service Mesh (LinkerD) helps identifying the flows (observability), monitoring the errors, etc. Feel freel to visit the [LinkerD web site](https://linkerd.io/) or [my blog post](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/meshing-with-linkerd2-using-grpc-enabled-net-core-services/ba-p/1377867) that explains the rationale behind using gRPC & LinkerD. 
 
 After having installed the solution + LinkerD, you should be able to visualize how services do call each other, as shown below:
 
 ![Call tree](Images/calltree.png "Call tree")
 
-where one can indeed see Mathfanboy calling every operation as well as Percentage calling multiplication & division. 
+where one can indeed see Mathfanboy calling every operation as well as Percentage calling multiplication & division. On top of enhanced Observability, you'll also get a better Security (mTLS) and a proper Load Balancing of gRPC requests. Read [my blog post](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/meshing-with-linkerd2-using-grpc-enabled-net-core-services/ba-p/1377867) to know more about it.
 
 # Prerequisites
 To get this demo app up & running, you need the following:
@@ -51,3 +51,6 @@ Alternatively, you can download https://github.com/stephaneey/grpc-calculator-li
 ```
 kubectl apply -f ./grpc-calculator-linkerd.yaml
 ```
+# Comparing REST over HTTP/1 vs gRPC
+
+If you want to compare both implementation, I also published [the corresponding rest calculator app](https://github.com/stephaneey/rest-calculator-linkerd). 
